@@ -1,6 +1,6 @@
 package com.library.services;
 
-import com.library.domain.Book;
+import com.library.domain.Book.Book;
 import com.library.dtos.BookDTO;
 import com.library.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class BookService
     private BookRepository repository;
 
     public Book findBookById(Long id) throws Exception {
-        return this.repository.findBookById(id).orElseThrow(() -> new Exception("Livro não encontrado"));
+        return this.repository.findById(id).orElseThrow(() -> new Exception("Não foi possível encontrar nenhum livro."));
     }
     public void saveBook(Book book){
         this.repository.save(book);
@@ -26,7 +26,21 @@ public class BookService
         this.saveBook(newBook);
         return newBook;
     }
+    public void deleteBook(Long id){
+        this.repository.deleteById(id);
+    }
+    public Book updateBook(Long id, BookDTO data) throws Exception{
+        Book updatedBook = this.findBookById(id);
 
+        updatedBook.setAuthor(data.getAuthor());
+        updatedBook.setName(data.getName());
+        updatedBook.setDescription(data.getDescription());
+        updatedBook.setPrice(data.getPrice());
+        updatedBook.setStock(data.getStock());
+
+        this.saveBook(updatedBook);
+        return updatedBook;
+    }
     public List<Book> getAllBooks(){
         return this.repository.findAll();
     }
