@@ -15,7 +15,7 @@ public class BookService
     private BookRepository repository;
 
     public Book findBookById(Long id) throws Exception {
-        return this.repository.findById(id).orElseThrow(() -> new Exception("Não foi possível encontrar nenhum livro."));
+        return this.repository.findById(id).orElseThrow(() -> new Exception("Livro não encontrado."));
     }
     public void saveBook(Book book){
         this.repository.save(book);
@@ -26,8 +26,9 @@ public class BookService
         this.saveBook(newBook);
         return newBook;
     }
-    public void deleteBook(Long id){
-        this.repository.deleteById(id);
+    public void deleteBook(Long id) throws Exception{
+        Book book = this.findBookById(id);
+        this.repository.delete(book);
     }
     public Book updateBook(Long id, BookDTO data) throws Exception{
         Book updatedBook = this.findBookById(id);

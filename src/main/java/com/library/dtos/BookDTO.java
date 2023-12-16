@@ -2,11 +2,7 @@ package com.library.dtos;
 
 import jakarta.validation.constraints.*;
 
-
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 
